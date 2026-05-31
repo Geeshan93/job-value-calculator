@@ -1,5 +1,6 @@
 // Pure job-value calculation. No DOM, no side effects.
 // GST is fixed at 10% of base. Tax is taxPercent% of base. Both additive.
+// Returns full-precision numbers; rounding/formatting is the caller's responsibility.
 export const GST_RATE = 0.10;
 
 export function computeJobValue(base, taxPercent) {
