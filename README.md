@@ -1,8 +1,8 @@
 # Job Value Calculator
 
 A tiny installable PWA: enter a base value, set a tax %, and see the final job
-value. The formula is **base + 10% GST + Tax%** (both percentages are taken off
-the base value). GST is fixed at 10%; the Tax % is editable.
+value. The formula is **base + 10% GST + Tax%** (both percentages are calculated
+on the base value and added). GST is fixed at 10%; the Tax % is editable.
 
 Example: base `$1000`, tax `25%` → GST `$100`, Tax `$250`, **Final `$1,350.00`**.
 

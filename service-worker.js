@@ -1,3 +1,5 @@
+// Bump this version (v1 -> v2 -> ...) whenever you change any app file,
+// otherwise installed users keep getting the old cached version.
 const CACHE = 'job-value-v1';
 const ASSETS = ['./', 'index.html', 'calc.js', 'manifest.json', 'icon-512.png'];
 
