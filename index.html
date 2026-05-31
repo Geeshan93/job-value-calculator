@@ -35,7 +35,7 @@
     }
     .line { display: flex; justify-content: space-between; align-items: baseline;
       font-size: 15px; color: var(--muted); margin: 4px 0 0; }
-    .line strong { color: var(--ink); font-weight: 600; }
+    .line .amt { color: var(--ink); font-weight: 600; }
     hr { border: 0; border-top: 1px solid var(--line); margin: 20px 0; }
     .total { display: flex; justify-content: space-between; align-items: baseline; }
     .total .label { font-size: 15px; color: var(--muted); }
@@ -55,7 +55,7 @@
     </div>
 
     <div class="field">
-      <div class="line"><span>GST (10%, fixed)</span><strong id="gst">+ $0.00</strong></div>
+      <div class="line"><span>GST (10%, fixed)</span><output id="gst" class="amt" aria-label="GST amount">+ $0.00</output></div>
     </div>
 
     <div class="field">
@@ -64,14 +64,14 @@
         <input id="tax" inputmode="decimal" placeholder="0" value="25" />
         <span>%</span>
       </div>
-      <div class="line"><span>Tax amount</span><strong id="taxAmt">+ $0.00</strong></div>
+      <div class="line"><span>Tax amount</span><output id="taxAmt" class="amt" aria-label="Tax amount">+ $0.00</output></div>
     </div>
 
     <hr />
 
-    <div class="total">
+    <div class="total" aria-live="polite">
       <span class="label">Final Job Value</span>
-      <span class="value" id="final">$0.00</span>
+      <output class="value" id="final" aria-label="Final job value">$0.00</output>
     </div>
   </main>
 
