@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b5fff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-512.png" />
+  <title>Job Value</title>
+  <style>
+    :root { --bg:#f4f6fb; --card:#fff; --ink:#0f172a; --muted:#64748b; --accent:#0b5fff; --line:#e2e8f0; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font: 17px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh; display: flex; justify-content: center;
+      padding: max(24px, env(safe-area-inset-top)) 16px env(safe-area-inset-bottom);
+    }
+    .card {
+      background: var(--card); width: 100%; max-width: 420px; border-radius: 20px;
+      padding: 24px; box-shadow: 0 10px 30px rgba(15,23,42,.08); align-self: flex-start;
+    }
+    h1 { font-size: 22px; margin: 0 0 20px; }
+    label { display: block; font-size: 14px; color: var(--muted); margin: 0 0 6px; }
+    .field { margin-bottom: 18px; }
+    .input-wrap { display: flex; align-items: center; gap: 8px;
+      border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .input-wrap:focus-within { border-color: var(--accent); }
+    .input-wrap span { color: var(--muted); font-weight: 600; }
+    input {
+      border: 0; outline: none; font-size: 20px; width: 100%; background: transparent;
+      color: var(--ink); font-weight: 600;
+    }
+    .line { display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 15px; color: var(--muted); margin: 4px 0 0; }
+    .line .amt { color: var(--ink); font-weight: 600; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 20px 0; }
+    .total { display: flex; justify-content: space-between; align-items: baseline; }
+    .total .label { font-size: 15px; color: var(--muted); }
+    .total .value { font-size: 30px; font-weight: 800; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Job Value</h1>
+
+    <div class="field">
+      <label for="base">Base Value</label>
+      <div class="input-wrap">
+        <span>$</span>
+        <input id="base" inputmode="decimal" placeholder="0" value="1000" />
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="line"><span>GST (10%, fixed)</span><output id="gst" class="amt" aria-label="GST amount">+ $0.00</output></div>
+    </div>
+
+    <div class="field">
+      <label for="tax">Tax %</label>
+      <div class="input-wrap">
+        <input id="tax" inputmode="decimal" placeholder="0" value="25" />
+        <span>%</span>
+      </div>
+      <div class="line"><span>Tax amount</span><output id="taxAmt" class="amt" aria-label="Tax amount">+ $0.00</output></div>
+    </div>
+
+    <hr />
+
+    <div class="total" aria-live="polite">
+      <span class="label">Final Job Value</span>
+      <output class="value" id="final" aria-label="Final job value">$0.00</output>
+    </div>
+  </main>
+
+  <script type="module">
+    import { computeJobValue } from './calc.js';
+
+    const money = new Intl.NumberFormat('en-US', {
+      style: 'currency', currency: 'USD',
+      minimumFractionDigits: 2, maximumFractionDigits: 2,
+    });
+
+    const baseEl = document.getElementById('base');
+    const taxEl  = document.getElementById('tax');
+    const gstEl  = document.getElementById('gst');
+    const taxAmtEl = document.getElementById('taxAmt');
+    const finalEl  = document.getElementById('final');
+
+    function render() {
+      const r = computeJobValue(parseFloat(baseEl.value), parseFloat(taxEl.value));
+      gstEl.textContent    = '+ ' + money.format(r.gst);
+      taxAmtEl.textContent = '+ ' + money.format(r.tax);
+      finalEl.textContent  = money.format(r.final);
+    }
+
+    baseEl.addEventListener('input', render);
+    taxEl.addEventListener('input', render);
+    render();
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

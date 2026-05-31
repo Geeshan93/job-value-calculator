@@ -1,0 +1,11 @@
+{
+  "name": "Job Value Calculator",
+  "short_name": "Job Value",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#0b5fff",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
